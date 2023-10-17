@@ -1,0 +1,62 @@
+med.test<-function(data,datai,conf)
+{
+ x<-function(data,datai)
+ { 
+  n=length(data)+length(datai)
+  z<-c(data,datai)
+  urut<-sort(z)
+  if(n%%2==0)
+  {
+   letak<-n%/%2
+   cupu<-(urut[letak]+urut[letak+1])/2
+   cupu
+  }
+  else if(n%%2==1)
+  {
+   letak<-(n+1)%/%2
+   cupu<-(urut[letak])
+   cupu
+  }
+ }
+ x(data,datai)
+ y=x(data,datai)
+ boxplot(data=data,datai,ylab="data,datai",frame=FALSE,col="red")
+ k=length(urut)
+ a=length(data[data>=y])
+ c=length(data[data<y])
+ b=length(datai[datai>=y])
+ d=length(datai[datai<y])
+ l=(k*(abs((a*d)-(b*c))-1/2*k)^2)/((a+b)*(a+c)*(b+d)*(c+d))
+ l
+ cat("\nData terurut",urut)
+ cat("\nMedian=",y)
+ cat("\nNilai data yang >= Median=",a)
+ cat("\nNilai data yang < Median=",b)
+ cat("\nNilai datai yang >= Median=",c)
+ cat("\nNilai datai yang < Median=",d)
+ cat("\nBanyaknya seluruh sampel=",k)
+ cat("\nXhitung=",l)
+ 
+ cat("\nHipotesis\n\t")
+ cat("H0: Mu = Mu0\n\t")
+ cat("H1: Mu =! Mu0\n")
+ cat("Taraf Signifikansi\n\t")
+ cat("Alpha=",1-conf)
+ cat("\nStatistik Uji\n\t")
+ cat("Uji Median\n")
+ cat("Daerah Kritis\n\t")
+ cat("Tolak H0 Jika x hitung >= x tabel\n")
+ cat("Keputusan\n\t")
+ j=qchisq((1-conf),1,lower.tail=FALSE)
+ if(abs(l)>=j){
+ cat("Karena Xhitung = ",l,"> x tabel = ",j," maka diputuskan Tolak HO")} 
+ else {cat("Karena Xhitung = ",l,"< x tabel = ",j," maka diputuskan Gagal Tolak HO")}
+ cat("\n\nXhitung =",l)
+ cat("\nXtabel =",j)
+ cat("\ndf = 1")
+ cat("\np-value =",pchisq((1-conf),1,lower.tail=FALSE))
+}
+
+data<-c(83,91,94,89,96,91,92,90,92,85)
+datai<-c(91,90,81,83,84,83,88,91,90,84,80,85)
+med.test(data,datai,0.95)
